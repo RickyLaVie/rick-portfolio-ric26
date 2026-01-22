@@ -148,6 +148,60 @@ body {
     left: -24px;
 }
 
+/* Marquee Section */
+.marquee-section {
+    padding: 24px 0;
+    background-color: var(--color-accent);
+    overflow: hidden;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.3s ease;
+}
+
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee-content {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 30s linear infinite;
+}
+
+.marquee-text {
+    display: inline-block;
+    padding: 0 40px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-33.333%);
+    }
+}
+
+.marquee-section:hover .marquee-content {
+    animation-play-state: paused;
+}
+
+.marquee-section:hover {
+    background-color: #f5f5f5;
+}
+
+.marquee-section:hover .marquee-text {
+    color: var(--color-text-primary);
+}
+
 /* Section Styles */
 section {
     padding: var(--spacing-xxl) 0;

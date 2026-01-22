@@ -76,33 +76,73 @@
         <div class="container">
             <h2 class="section-title">Selected Works</h2>
             <div class="works-grid">
-                <div class="work-card">
-                    <div class="work-image">
-                        <img src="images/work-louisa-coffee.jpg" alt="Louisa Coffee Total Experience">
+                <div class="work-card" data-expand="right">
+                    <div class="work-card-inner">
+                        <div class="work-image">
+                            <img src="images/work-louisa-coffee.jpg" alt="Louisa Coffee Total Experience">
+                        </div>
+                        <span class="work-tag">Service Design</span>
+                        <h3 class="work-title">Louisa Coffee Total Experience</h3>
                     </div>
-                    <span class="work-tag">Service Design</span>
-                    <h3 class="work-title">Louisa Coffee Total Experience</h3>
+                    <div class="work-details">
+                        <button class="work-close" aria-label="Close">×</button>
+                        <div class="work-details-content">
+                            <span class="work-tag">Service Design</span>
+                            <h3 class="work-details-title">Louisa Coffee Total Experience</h3>
+                            <p class="work-description">Delivered a mixed-methods Total Experience study on LOUISA COFFEE within a government-funded research project, integrating desk research, field observations, and review analytics to identify journey-wide pain points and opportunities for experience/brand strategy</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="work-card">
-                    <div class="work-image">
-                        <img src="images/work-hncb-line.jpg" alt="HNCB LINE Services Website Redesign">
+                <div class="work-card" data-expand="left">
+                    <div class="work-card-inner">
+                        <div class="work-image">
+                            <img src="images/work-hncb-line.jpg" alt="HNCB LINE Services Website Redesign">
+                        </div>
+                        <span class="work-tag">UI/UX Design</span>
+                        <h3 class="work-title">HNCB LINE Services Website Redesign</h3>
                     </div>
-                    <span class="work-tag">UI/UX Design</span>
-                    <h3 class="work-title">HNCB LINE Services Website Redesign</h3>
+                    <div class="work-details">
+                        <button class="work-close" aria-label="Close">×</button>
+                        <div class="work-details-content">
+                            <span class="work-tag">UI/UX Design</span>
+                            <h3 class="work-details-title">HNCB LINE Services Website Redesign</h3>
+                            <p class="work-description">Developed a promotional website for LINE personalized services by conducting competitor analysis and streamlining the information architecture, effectively highlighting the benefits and application steps for the service.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="work-card">
-                    <div class="work-image">
-                        <img src="images/work-moea.jpg" alt="MOEA Innovative Life Service Case Study">
+                <div class="work-card" data-expand="right">
+                    <div class="work-card-inner">
+                        <div class="work-image">
+                            <img src="images/work-moea.jpg" alt="MOEA Innovative Life Service Case Study">
+                        </div>
+                        <span class="work-tag">Market Analysis & Layout</span>
+                        <h3 class="work-title">MOEA Innovative Life Service Case Study</h3>
                     </div>
-                    <span class="work-tag">Market Analysis & Layout</span>
-                    <h3 class="work-title">MOEA Innovative Life Service Case Study</h3>
+                    <div class="work-details">
+                        <button class="work-close" aria-label="Close">×</button>
+                        <div class="work-details-content">
+                            <span class="work-tag">Market Analysis & Layout</span>
+                            <h3 class="work-details-title">MOEA Innovative Life Service Case Study</h3>
+                            <p class="work-description">Conducted case studies and startup research, highlighting digital transformation trends, and designed the layout for a MOEA publication, Innovative Life Service Case Study, improving information accessibility and visual appeal.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="work-card">
-                    <div class="work-image">
-                        <img src="images/work-iii-find.jpg" alt="III FIND Rebranding Project">
+                <div class="work-card" data-expand="left">
+                    <div class="work-card-inner">
+                        <div class="work-image">
+                            <img src="images/work-iii-find.jpg" alt="III FIND Rebranding Project">
+                        </div>
+                        <span class="work-tag">Brand Identity & Strategy</span>
+                        <h3 class="work-title">III FIND Rebranding Project</h3>
                     </div>
-                    <span class="work-tag">Brand Identity & Strategy</span>
-                    <h3 class="work-title">III FIND Rebranding Project</h3>
+                    <div class="work-details">
+                        <button class="work-close" aria-label="Close">×</button>
+                        <div class="work-details-content">
+                            <span class="work-tag">Brand Identity & Strategy</span>
+                            <h3 class="work-details-title">III FIND Rebranding Project</h3>
+                            <p class="work-description">Led the rebranding project of digital transformation consulting service "FIND", enhancing brand recognition and redesigning brand image through strategic design.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -176,5 +216,59 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const workCards = document.querySelectorAll('.work-card');
+            const worksGrid = document.querySelector('.works-grid');
+            
+            workCards.forEach(card => {
+                const cardInner = card.querySelector('.work-card-inner');
+                const workDetails = card.querySelector('.work-details');
+                const closeBtn = card.querySelector('.work-close');
+                
+                // 點擊卡片展開
+                cardInner.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (!card.classList.contains('expanded')) {
+                        // 先關閉其他已展開的卡片
+                        workCards.forEach(otherCard => {
+                            if (otherCard !== card && otherCard.classList.contains('expanded')) {
+                                otherCard.classList.remove('expanded');
+                            }
+                        });
+                        // 展開當前卡片
+                        card.classList.add('expanded');
+                        // 滾動到卡片位置
+                        setTimeout(() => {
+                            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 100);
+                    }
+                });
+                
+                // 點擊關閉按鈕
+                closeBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    card.classList.remove('expanded');
+                });
+                
+                // 點擊詳細資訊區域外關閉
+                workDetails.addEventListener('click', function(e) {
+                    if (e.target === workDetails) {
+                        card.classList.remove('expanded');
+                    }
+                });
+            });
+            
+            // ESC 鍵關閉
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    workCards.forEach(card => {
+                        card.classList.remove('expanded');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -9,21 +9,35 @@
 <body>
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Bridging Data & Design.</h1>
-                    <p>I am Rick Lai, a UX Researcher & Master of Design student at NTUST. Transforming complex insights into intuitive experiences.</p>
-                    <a href="#selected-works" class="btn-primary">View Selected Work →</a>
-                </div>
-                <div class="hero-image">
-                    <div class="profile-frame">
-                        <div class="profile-overlay top-right"></div>
-                        <div class="profile-overlay bottom-left"></div>
-                        <img src="images/profile.jpg" alt="Rick Lai" class="profile-picture">
-                    </div>
-                </div>
+        <div class="hero-animated-text">
+            <div class="hero-line">
+                <span class="hero-word" data-word="B">B</span>
+                <span class="hero-word" data-word="r">r</span>
+                <span class="hero-word" data-word="i">i</span>
+                <span class="hero-word" data-word="d">d</span>
+                <span class="hero-word" data-word="g">g</span>
+                <span class="hero-word" data-word="i">i</span>
+                <span class="hero-word" data-word="n">n</span>
+                <span class="hero-word" data-word="g">g</span>
+                <span class="hero-word" data-word=" ">&nbsp;</span>
+                <span class="hero-word" data-word="D">D</span>
+                <span class="hero-word" data-word="a">a</span>
+                <span class="hero-word" data-word="t">t</span>
+                <span class="hero-word" data-word="a">a</span>
             </div>
+            <div class="hero-line">
+                <span class="hero-word" data-word="&">&</span>
+                <span class="hero-word" data-word=" ">&nbsp;</span>
+                <span class="hero-word" data-word="D">D</span>
+                <span class="hero-word" data-word="e">e</span>
+                <span class="hero-word" data-word="s">s</span>
+                <span class="hero-word" data-word="i">i</span>
+                <span class="hero-word" data-word="g">g</span>
+                <span class="hero-word" data-word="n">n</span>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
         </div>
     </section>
 
@@ -34,6 +48,21 @@
                 <span class="marquee-text">DESIGN IS NOT JUST WHAT IT LOOKS LIKE AND FEELS LIKE. DESIGN IS HOW IT WORKS</span>
                 <span class="marquee-text">DESIGN IS NOT JUST WHAT IT LOOKS LIKE AND FEELS LIKE. DESIGN IS HOW IT WORKS</span>
                 <span class="marquee-text">DESIGN IS NOT JUST WHAT IT LOOKS LIKE AND FEELS LIKE. DESIGN IS HOW IT WORKS</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-content">
+                <div class="profile-image-wrapper">
+                    <img src="images/profile.jpg" alt="Rick Lai" class="profile-photo">
+                </div>
+                <div class="profile-text">
+                    <p class="profile-intro">I am Rick Lai, a UX Researcher & Master of Design student at NTUST. Transforming complex insights into intuitive experiences.</p>
+                    <a href="#selected-works" class="btn-primary">View Selected Work →</a>
+                </div>
             </div>
         </div>
     </section>
@@ -219,6 +248,106 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Hero scroll effect - disintegrate effect
+            const heroSection = document.querySelector('.hero');
+            if (!heroSection) return;
+            
+            const heroWords = document.querySelectorAll('.hero-word');
+            let characterProperties = [];
+            let isInitialized = false;
+            
+            // Initialize random properties for each character (only once)
+            function initializeCharacterProperties() {
+                if (isInitialized || heroWords.length === 0) return;
+                isInitialized = true;
+                
+                heroWords.forEach((word, index) => {
+                    const wordText = word.textContent.trim();
+                    if (wordText && wordText !== ' ' && wordText !== '&nbsp;' && word.dataset.word !== ' ') {
+                        characterProperties[index] = {
+                            // Random horizontal displacement direction (-400px to 400px)
+                            translateX: (Math.random() - 0.5) * 800,
+                            // Random vertical displacement (mostly downward, -100px to 600px)
+                            translateY: -100 + Math.random() * 700,
+                            // Random rotation between -30 and 30 degrees
+                            rotation: (Math.random() - 0.5) * 60,
+                            // Random scale between 0.2 and 1.2
+                            scale: 0.2 + Math.random() * 1.0,
+                            // Random opacity between 0.1 and 1
+                            opacity: 0.1 + Math.random() * 0.9
+                        };
+                    } else {
+                        characterProperties[index] = null;
+                    }
+                });
+            }
+            
+            function handleScroll() {
+                const currentScrollY = window.scrollY || window.pageYOffset;
+                const heroHeight = heroSection.offsetHeight;
+                
+                // Initialize properties immediately
+                if (!isInitialized) {
+                    initializeCharacterProperties();
+                }
+                
+                // Calculate progress (0 to 1) based on scroll position
+                // Start disintegrating immediately when scrolling starts
+                const maxScroll = heroHeight * 0.5; // Full effect at 50% of hero height
+                const progress = Math.min(currentScrollY / maxScroll, 1);
+                
+                if (currentScrollY > 5) {
+                    heroSection.classList.add('scrolling');
+                    
+                    // Apply disintegrate effect based on scroll progress
+                    heroWords.forEach((word, index) => {
+                        if (characterProperties[index] !== undefined && characterProperties[index] !== null) {
+                            const wordText = word.textContent.trim();
+                            if (wordText && wordText !== ' ' && wordText !== '&nbsp;' && word.dataset.word !== ' ') {
+                                const props = characterProperties[index];
+                                
+                                // Apply progress to all transformations
+                                const translateX = props.translateX * progress;
+                                const translateY = props.translateY * progress;
+                                const rotation = props.rotation * progress;
+                                const scale = 1 + (props.scale - 1) * progress;
+                                const opacity = 1 - (1 - props.opacity) * progress;
+                                
+                                word.style.setProperty('--translateX', translateX + 'px');
+                                word.style.setProperty('--translateY', translateY + 'px');
+                                word.style.setProperty('--rotation', rotation + 'deg');
+                                word.style.setProperty('--scale', scale);
+                                word.style.setProperty('--opacity', opacity);
+                            }
+                        }
+                    });
+                } else {
+                    heroSection.classList.remove('scrolling');
+                    // Reset all transforms when at top
+                    heroWords.forEach(word => {
+                        word.style.setProperty('--translateX', '0px');
+                        word.style.setProperty('--translateY', '0px');
+                        word.style.setProperty('--rotation', '0deg');
+                        word.style.setProperty('--scale', '1');
+                        word.style.setProperty('--opacity', '1');
+                    });
+                }
+            }
+            
+            // Initialize on page load
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    initializeCharacterProperties();
+                    handleScroll();
+                });
+            } else {
+                initializeCharacterProperties();
+                handleScroll();
+            }
+            
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            window.addEventListener('resize', handleScroll, { passive: true });
+            
             const workCards = document.querySelectorAll('.work-card');
             const worksGrid = document.querySelector('.works-grid');
             
